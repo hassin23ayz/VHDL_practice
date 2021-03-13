@@ -1,0 +1,5 @@
+#only keep vhd file type
+
+/*
+!.gitignore
+!*.vhd
