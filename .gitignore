@@ -9,3 +9,7 @@
 /TPU/*
 # but do not ignore the .vhd file
 !/TPU/*.vhd
+
+!/halfAdder
+/halfAdder/*
+!/halfAdder/*.vhd
