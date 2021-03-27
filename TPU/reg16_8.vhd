@@ -35,17 +35,17 @@ end reg16_8;
 -- regs is an array of 8 SLVs each of length 16bit  
 -- =================
 architecture Behavioral of reg16_8 is
-	type store_t is array (0 to 7) of std_logic_vector(15 downto 0);
+   type store_t is array (0 to 7) of std_logic_vector(15 downto 0);
    signal regs: store_t := (others => X"0000");
 begin
 
 	process(I_clk, I_en)
 	begin
 		if rising_edge(I_clk) and I_en='1' then
-			O_dataA <= regs(to_integer(unsigned(I_selA)));
-			O_dataB <= regs(to_integer(unsigned(I_selB)));
+			O_dataA <= regs(to_integer(unsigned(I_selA)));  --second we select which register to be shown at output
+			O_dataB <= regs(to_integer(unsigned(I_selB)));  --second we select which register to be shown at output
 			if (I_we = '1') then
-				regs(to_integer(unsigned(I_selD))) <= I_dataD;
+				regs(to_integer(unsigned(I_selD))) <= I_dataD; --first select register and put the data
 			end if;
 		end if;
 	end process;
