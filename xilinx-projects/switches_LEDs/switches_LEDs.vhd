@@ -14,8 +14,8 @@ architecture Behavioral of switches_LEDs is
 begin
 	--LED_0 <= switch_0;
 	--LED_1 <= switch_1;
-	LED_0 <= '0';
-	LED_1 <= '1';
+	LED_0 <= '1';
+	LED_1 <= '0';
 	
 end Behavioral;
 

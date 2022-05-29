@@ -68,3 +68,6 @@ _xmsgs/
 
 # added by ayex
 *.debug
+*.xreport
+*.html
+*.gise
