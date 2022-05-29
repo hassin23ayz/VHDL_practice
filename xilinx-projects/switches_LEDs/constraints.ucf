@@ -1,0 +1,5 @@
+# Constraints for Papilio One
+# NET switch_1 LOC = "P3" | IOSTANDARD=LVTTL;
+# NET switch_0 LOC = "P4" | IOSTANDARD=LVTTL;
+NET LED_1   LOC = "P16" | IOSTANDARD=LVTTL;
+NET LED_0   LOC = "P17" | IOSTANDARD=LVTTL;

@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7 (64-bit)
+# Build 321239 by xbuild on Fri Sep 27 19:24:36 MDT 2013
+# Start of session at: Sun May 29 12:27:06 2022
+# Process ID: 15777
+# Log file: /home/ayex/firmware_proj/VHDL_practice/xilinx-projects/switches_LEDs/planAhead_run_2/planAhead.log
+# Journal file: /home/ayex/firmware_proj/VHDL_practice/xilinx-projects/switches_LEDs/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source /home/ayex/firmware_proj/VHDL_practice/xilinx-projects/switches_LEDs/pa.fromNcd.tcl
