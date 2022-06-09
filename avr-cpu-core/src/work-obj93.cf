@@ -1,0 +1,4 @@
+v 4
+file . "avr_fpga.vhd" "9c2700a062756d1d0e35fec08e70bee8567ac611" "20220609180004.609":
+  entity avr_fpga at 8( 430) + 0 on 11;
+  architecture behavioral of avr_fpga at 31( 1344) + 0 on 12;

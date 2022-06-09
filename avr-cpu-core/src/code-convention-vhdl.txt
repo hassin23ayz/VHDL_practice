@@ -1,0 +1,26 @@
+- General Structure of VHDL files
+
+Header and Library Declarations 
+
+Entity Declaration {
+	Input                        : A top level Entity's I/O are FPGA pins 
+	Output                       
+}
+
+Entity Architecture {
+	
+	Header {
+		Components  delclaration : links with I/O of another low level entity 
+		Functions   delclaration
+		Signals     delclaration : signals are driven by components (internal usage) / 
+		Constants   delclaration
+	}
+
+	body {
+
+		how the declared items work together
+
+		begin
+		end
+	}
+}
