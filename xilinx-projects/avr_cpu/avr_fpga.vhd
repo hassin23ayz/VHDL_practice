@@ -7,8 +7,8 @@
 -- ********** Header and Library Declaration **************
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
---use IEEE.STD_LOGIC_ARITH.ALL;
---use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- ********** Entity Declaration **************************
 -- this is a top level Entity 
@@ -154,6 +154,19 @@ begin
 
 		Q_7_SEGMENT     => S_7_SEGMENT
 	);
+
+	-- input clock scaler
+	--
+	clk_div : process(I_CLK_100)
+	begin
+		if (rising_edge(I_CLK_100)) then
+			L_CLK_CNT <= L_CLK_CNT + "001";
+			if (L_CLK_CNT = "001") then
+				L_CLK_CNT <= "000";
+				L_CLK <= not L_CLK;
+			end if;
+		end if;
+	end process;
 
 end Behavioral;
 -- ****** Body Ends ******
