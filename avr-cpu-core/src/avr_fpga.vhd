@@ -34,7 +34,7 @@ architecture Behavioral of avr_fpga is
 
 component cpu_core
 	port (
-		I_CLK     : in std_logic;
+		I_CLK     : in std_logic;                      -- 
 		I_CLR     : in std_logic;
 		I_INTVEC  : in std_logic_vector ( 5 downto 0);
 		I_DIN     : in std_logic_vector ( 7 downto 0);
@@ -168,5 +168,29 @@ begin
 		end if;
 	end process;
 
+    -- if SW8 SW9 gets pressed then cpu & ino components gets reset 
+    deb : process(L_CLK)
+    begin
+    	if (rising_edge(L_CLK)) then
+	    	-- switch debounce
+	    	if ((I_SWITCH(8) = '0') or (I_SWITCH(9) = '0')) then
+	    		L_CLR_N <= '0';
+	    		L_C2_N  <= '0';
+	    		L_C1_N  <= '0';
+	    	else
+	    		L_CLR_N <= L_C2_N;
+	    		L_C2_N  <= L_C1_N;
+	    		L_C1_N  <= '1';
+	    	end if;
+	    end if;
+	end process;
+
+    L_CLR <= not L_CLR_N;
+
+    Q_LEDS(2) <= I_RX;
+    Q_LEDS(3) <= N_TX;
+    Q_7_SEGMENT  <= N_7_SEGMENT when (I_SWITCH(7) = '1') else S_7_SEGMENT;
+    Q_TX <= N_TX;
+    
 end Behavioral;
 -- ****** Body Ends ******

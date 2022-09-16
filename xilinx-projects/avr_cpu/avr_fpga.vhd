@@ -34,7 +34,7 @@ architecture Behavioral of avr_fpga is
 
 component cpu_core
 	port (
-		I_CLK     : in std_logic;
+		I_CLK     : in std_logic;                         -- clock input of this entity [ divided from I_CLK_100 through L_CLK 
 		I_CLR     : in std_logic;
 		I_INTVEC  : in std_logic_vector ( 5 downto 0);
 		I_DIN     : in std_logic_vector ( 7 downto 0);
@@ -93,12 +93,12 @@ end component;
 signal S_7_SEGMENT : std_logic_vector( 6 downto 0);
 
 -- local signals are not driven by any component but by local processes and inputs of the entity 
-signal L_CLK     : std_logic := '0';
-signal L_CLK_CNT : std_logic_vector(2 downto 0) := "000";
-signal L_CLR     : std_logic;          -- reset, active low
-signal L_CLR_N   : std_logic := '0';   -- reset, active low 
-signal L_C1_N    : std_logic := '0';   -- switch debounce , active low 
-signal L_C2_N    : std_logic := '0';   -- switch debounce , active low 
+signal L_CLK     : std_logic := '0';                           -- used for dividing I_CLK_100 main clock 
+signal L_CLK_CNT : std_logic_vector(2 downto 0) := "000";      -- used for dividing I_CLK_100 main clock
+signal L_CLR     : std_logic;          -- reset, active low    reset signal that propagates to all entities 
+signal L_CLR_N   : std_logic := '0';   -- reset, active low    drives L_CLR 
+signal L_C1_N    : std_logic := '0';   -- switch debounce , active low  , reset signal related
+signal L_C2_N    : std_logic := '0';   -- switch debounce , active low  , reset signal related 
 
 -- ****** Header ends ******
 
@@ -106,10 +106,11 @@ signal L_C2_N    : std_logic := '0';   -- switch debounce , active low
 begin
 	-- components instantiation : connects the ports of the component to the signals in the architecture
 	-- the symbol => is used for mapping
+	-- the symbol <= is used for signal assignment 
 
 	cpu : cpu_core
 	port map(
-		I_CLK    => L_CLK, 
+		I_CLK    => L_CLK,         -- mapped with local clk so that cpu_core entity gets clock input after the divide
 		I_CLR    => L_CLR,
 		I_DIN    => N_DOUT,
 		I_INTVEC => N_INTVEC, 
@@ -168,5 +169,29 @@ begin
 		end if;
 	end process;
 
+    -- if SW8 SW9 gets pressed then cpu & ino components gets reset 
+    deb : process(L_CLK)
+    begin
+    	if (rising_edge(L_CLK)) then
+	    	-- switch debounce
+	    	if ((I_SWITCH(8) = '0') or (I_SWITCH(9) = '0')) then
+	    		L_CLR_N <= '0';
+	    		L_C2_N  <= '0';
+	    		L_C1_N  <= '0';
+	    	else
+	    		L_CLR_N <= L_C2_N;
+	    		L_C2_N  <= L_C1_N;
+	    		L_C1_N  <= '1';
+	    	end if;
+	    end if;
+	end process;
+
+    L_CLR <= not L_CLR_N;
+
+    Q_LEDS(2) <= I_RX;
+    Q_LEDS(3) <= N_TX;
+    Q_7_SEGMENT  <= N_7_SEGMENT when (I_SWITCH(7) = '1') else S_7_SEGMENT;
+    Q_TX <= N_TX;
+    
 end Behavioral;
 -- ****** Body Ends ******
